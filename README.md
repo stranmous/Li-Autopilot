@@ -52,13 +52,13 @@ LinkedIn workflows like connection outreach and Easy Apply can involve a lot of 
 
 The extension has three main parts:
 
-1. `popup/`
+1. `li-autopilot/popup/`
    The UI where you configure limits, job search settings, Q&A answers, and start or stop automation.
 
-2. `background/service-worker.js`
+2. `li-autopilot/background/service-worker.js`
    The background orchestrator that opens the right LinkedIn pages and routes commands into LinkedIn tabs.
 
-3. `content/`
+3. `li-autopilot/content/`
    The LinkedIn page automation logic:
    - `utils.js` shared helpers
    - `profile-scraper.js` syncs your own LinkedIn profile
@@ -206,12 +206,12 @@ Examples:
 
 These delays are mainly implemented through shared helpers in:
 
-- [content/utils.js](li-autopilot/content/utils.js)
+- [li-autopilot/content/utils.js](li-autopilot/content/utils.js)
 
 Used by:
 
-- [content/connect.js](li-autopilot/content/connect.js)
-- [content/apply.js](li-autopilot/content/apply.js)
+- [li-autopilot/content/connect.js](li-autopilot/content/connect.js)
+- [li-autopilot/content/apply.js](li-autopilot/content/apply.js)
 
 ## How Developers Can Reduce or Remove Delay
 
@@ -219,7 +219,7 @@ If you want faster behavior for development or testing, edit the delay logic.
 
 ### Option 1: Lower the delay range
 
-In [content/connect.js](li-autopilot/content/connect.js) and [content/apply.js](li-autopilot/content/apply.js), reduce values passed to:
+In [li-autopilot/content/connect.js](li-autopilot/content/connect.js) and [li-autopilot/content/apply.js](li-autopilot/content/apply.js), reduce values passed to:
 
 ```js
 await LiAP.randomDelay(min, max);
@@ -239,7 +239,7 @@ await LiAP.randomDelay(500, 1200);
 
 ### Option 2: Disable long reading pauses
 
-In [content/utils.js](li-autopilot/content/utils.js), replace:
+In [li-autopilot/content/utils.js](li-autopilot/content/utils.js), replace:
 
 ```js
 LiAP.readingPause = async () => {
@@ -256,7 +256,7 @@ LiAP.readingPause = async () => {};
 
 ### Option 3: Disable random delays entirely
 
-In [content/utils.js](li-autopilot/content/utils.js), replace:
+In [li-autopilot/content/utils.js](li-autopilot/content/utils.js), replace:
 
 ```js
 LiAP.randomDelay = async (min = 2000, max = 6000) => {
@@ -293,8 +293,6 @@ li-autopilot/
 │   ├── icon48.png
 │   └── icon128.png
 └── docs/
-    ├── ARCHITECTURE.md
-    ├── SCREENSHOTS.md
     └── images/
 ```
 
