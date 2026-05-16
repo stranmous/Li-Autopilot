@@ -30,19 +30,19 @@ It is built as a pure client-side Chrome Extension using Manifest V3. There is n
 
 ### Main Popup
 
-![LiAutopilot main popup](docs/images/main-popup.png)
+![LiAutopilot main popup](li-autopilot/docs/images/main-popup.png)
 
 ### Auto Connect Running
 
-![Auto Connect running on LinkedIn My Network](docs/images/connect-running.png)
+![Auto Connect running on LinkedIn My Network](li-autopilot/docs/images/connect-running.png)
 
 ### Easy Apply Form Step
 
-![Easy Apply form step](docs/images/easy-apply-form.png)
+![Easy Apply form step](li-autopilot/docs/images/easy-apply-form.png)
 
 ### Easy Apply Review / Submit Step
 
-![Easy Apply review step](docs/images/easy-apply-review.png)
+![Easy Apply review step](li-autopilot/docs/images/easy-apply-review.png)
 
 ## Why This Exists
 
@@ -175,7 +175,7 @@ The extension will:
 
 # Data Storage and Privacy
 
-# All extension data is stored locally in `chrome.storage.local` (C:\Users\<User Name>\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\<extension-id>\)
+## All extension data is stored locally in `chrome.storage.local` (C:\Users\<User Name>\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\<extension-id>\)
 
 That includes:
 
@@ -193,7 +193,7 @@ What this means:
 ## - no telemetry
 ## - no cloud sync added by this project
 
-# If you use this extension, your project data remains inside your local Chrome profile unless you personally export or share it.
+## If you use this extension, your project data remains inside your local Chrome profile unless you personally export or share it.
 
 ## Random Delay / Human Hesitation
 
@@ -206,12 +206,12 @@ Examples:
 
 These delays are mainly implemented through shared helpers in:
 
-- [content/utils.js](content/utils.js)
+- [content/utils.js](li-autopilot/content/utils.js)
 
 Used by:
 
-- [content/connect.js](content/connect.js)
-- [content/apply.js](content/apply.js)
+- [content/connect.js](li-autopilot/content/connect.js)
+- [content/apply.js](li-autopilot/content/apply.js)
 
 ## How Developers Can Reduce or Remove Delay
 
@@ -219,7 +219,7 @@ If you want faster behavior for development or testing, edit the delay logic.
 
 ### Option 1: Lower the delay range
 
-In [content/connect.js](content/connect.js) and [content/apply.js](content/apply.js), reduce values passed to:
+In [content/connect.js](li-autopilot/content/connect.js) and [content/apply.js](li-autopilot/content/apply.js), reduce values passed to:
 
 ```js
 await LiAP.randomDelay(min, max);
@@ -239,7 +239,7 @@ await LiAP.randomDelay(500, 1200);
 
 ### Option 2: Disable long reading pauses
 
-In [content/utils.js](content/utils.js), replace:
+In [content/utils.js](li-autopilot/content/utils.js), replace:
 
 ```js
 LiAP.readingPause = async () => {
@@ -256,7 +256,7 @@ LiAP.readingPause = async () => {};
 
 ### Option 3: Disable random delays entirely
 
-In [content/utils.js](content/utils.js), replace:
+In [content/utils.js](li-autopilot/content/utils.js), replace:
 
 ```js
 LiAP.randomDelay = async (min = 2000, max = 6000) => {
@@ -306,11 +306,11 @@ li-autopilot/
 - required fields are detected before fill attempts
 - missing required answers are logged and skipped safely
 
-## Disclaimer
+# Disclaimer
 
-This project automates actions on LinkedIn. LinkedIn may limit, restrict, or disallow certain automated behavior under its Terms of Service or platform policies.
+## This project automates actions on LinkedIn. LinkedIn may limit, restrict, or disallow certain automated behavior under its Terms of Service or platform policies.
 
-Use this project carefully and responsibly.
+## Use this project carefully and responsibly.
 
 Important points:
 
@@ -319,4 +319,4 @@ Important points:
 - review your own use case before running at scale
 - use at your own risk
 
-This repository is shared for educational and personal-use purposes.
+# This repository is shared for educational and personal-use purposes.
