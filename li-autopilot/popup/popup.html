@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LiAutopilot</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">Li</div>
+      <span class="logo-name">Autopilot</span>
+    </div>
+    <div class="status-pill" id="statusPill">● Idle</div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="main">Main</button>
+    <button class="tab" data-tab="connect">Connect</button>
+    <button class="tab" data-tab="apply">Apply</button>
+    <button class="tab" data-tab="qa">Q&amp;A</button>
+    <button class="tab" data-tab="log">Log</button>
+  </nav>
+
+  <!-- ── TAB: MAIN ─────────────────────────────────────────────────────── -->
+  <section class="panel active" id="tab-main">
+
+    <!-- Master toggle -->
+    <div class="toggle-row master-row">
+      <div>
+        <div class="toggle-label">Master Autopilot</div>
+        <div class="toggle-sub">Enables all active modules</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="masterOn">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Module toggles -->
+    <div class="module-toggles">
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span class="module-dot connect-dot"></span>Auto Connect
+        </div>
+        <label class="switch sm">
+          <input type="checkbox" id="connectOn">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span class="module-dot apply-dot"></span>Auto Apply
+        </div>
+        <label class="switch sm">
+          <input type="checkbox" id="applyOn">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="statConnect">0</div>
+        <div class="stat-lbl">Connected today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statApply">0</div>
+        <div class="stat-lbl">Applied today</div>
+      </div>
+    </div>
+
+    <!-- Progress bars -->
+    <div class="progress-section">
+      <div class="progress-row">
+        <span class="progress-lbl">Connect</span>
+        <div class="progress-bar"><div class="progress-fill connect-fill" id="connectBar"></div></div>
+        <span class="progress-count" id="connectCount">0/20</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-lbl">Apply</span>
+        <div class="progress-bar"><div class="progress-fill apply-fill" id="applyBar"></div></div>
+        <span class="progress-count" id="applyCount">0/10</span>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btnStartConnect">▶ Start Connecting</button>
+      <button class="btn btn-secondary" id="btnStartApply">▶ Start Applying</button>
+    </div>
+    <button class="btn btn-stop" id="btnStop">■ Stop All</button>
+
+    <!-- Profile sync -->
+    <button class="btn btn-ghost" id="btnSyncProfile">⟳ Sync My Profile</button>
+    <div class="profile-info" id="profileInfo"></div>
+
+  </section>
+
+  <!-- ── TAB: CONNECT ───────────────────────────────────────────────────── -->
+  <section class="panel" id="tab-connect">
+    <p class="section-desc">Auto Connect now works from LinkedIn's Nearby &amp; Mutuals suggestions page at <code>linkedin.com/mynetwork/grow/</code>. It will click visible Connect buttons until the daily limit is reached.</p>
+    <div class="form-group">
+      <label class="form-label">Daily Limit <span class="form-hint">(max 50)</span></label>
+      <input class="form-input" id="connectLimit" type="number" min="1" max="50" value="20">
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-label">Send personalised note</div>
+      <label class="switch sm">
+        <input type="checkbox" id="connectSendNote">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="form-group" id="noteTemplateGroup" style="display:none">
+      <label class="form-label">Note Template <span class="form-hint">Use {name} for first name</span></label>
+      <textarea class="form-input form-textarea" id="connectNote"
+                placeholder="Hi {name}, I'd love to connect!"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" id="saveConnect">Save Settings</button>
+  </section>
+
+  <!-- ── TAB: APPLY ────────────────────────────────────────────────────── -->
+  <section class="panel" id="tab-apply">
+    <div class="form-group">
+      <label class="form-label">Job Keywords</label>
+      <input class="form-input" id="applyKeywords" type="text"
+             placeholder="e.g. Frontend Developer, React, Next.js">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Location</label>
+      <input class="form-input" id="applyLocation" type="text"
+             placeholder="e.g. Remote, Pakistan, Dubai">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Experience Level</label>
+      <select class="form-input" id="applyExpLevel">
+        <option value="">Any</option>
+        <option value="1">Internship</option>
+        <option value="2">Entry level</option>
+        <option value="3">Associate</option>
+        <option value="4">Mid-Senior</option>
+        <option value="5">Director</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Daily Limit <span class="form-hint">(max 25)</span></label>
+      <input class="form-input" id="applyLimit" type="number" min="1" max="25" value="10">
+    </div>
+    <button class="btn btn-primary btn-full" id="saveApply">Save Settings</button>
+  </section>
+
+  <!-- ── TAB: Q&A ──────────────────────────────────────────────────────── -->
+  <section class="panel" id="tab-qa">
+    <p class="section-desc">Pre-fill your answers to common application questions. The extension uses these to fill forms automatically.</p>
+
+    <div class="form-group">
+      <label class="form-label">Phone Number</label>
+      <input class="form-input" id="qaPhone" type="tel" placeholder="+92 300 1234567">
+    </div>
+    <div class="form-group">
+      <label class="form-label">City</label>
+      <input class="form-input" id="qaCity" type="text" placeholder="Islamabad">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Address</label>
+      <input class="form-input" id="qaAddress" type="text" placeholder="Street address">
+    </div>
+    <div class="form-group">
+      <label class="form-label">State / Province</label>
+      <input class="form-input" id="qaState" type="text" placeholder="Punjab">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Postal / ZIP Code</label>
+      <input class="form-input" id="qaPostal" type="text" placeholder="44000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Expected Salary (annual)</label>
+      <input class="form-input" id="qaSalary" type="text" placeholder="e.g. 80000 or Negotiable">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Years of Experience</label>
+      <input class="form-input" id="qaYearsExp" type="number" placeholder="e.g. 3">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notice Period</label>
+      <input class="form-input" id="qaNotice" type="text" placeholder="e.g. 2 weeks, Immediate">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Visa / Work Authorization</label>
+      <input class="form-input" id="qaVisa" type="text" placeholder="e.g. No visa required">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Are you willing to relocate?</label>
+      <select class="form-input" id="qaRelocate">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Open to discussion">Open to discussion</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-full" id="saveQA">Save Q&amp;A Answers</button>
+  </section>
+
+  <!-- ── TAB: LOG ──────────────────────────────────────────────────────── -->
+  <section class="panel" id="tab-log">
+    <div class="log-toolbar">
+      <span class="log-title">Recent Activity</span>
+      <button class="btn-ghost-sm" id="clearLog">Clear</button>
+    </div>
+    <div class="log-list" id="logList">
+      <div class="log-empty">No activity yet. Start a module to begin.</div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
